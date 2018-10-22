@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+DIR=$(dirname $0)
+
+export PATH="$PATH:$DIR"
+
+if [[ ! -z $FROM_USERNAME ]] || [[ ! -z $FROM_PASSWORD ]] || [[ ! -z $FROM_SERVER ]]; then
+  >&2 echo "Setting Up Auth for from"
+  setup_auth "$FROM_USERNAME" "$FROM_PASSWORD" "$FROM_SERVER"
+fi
+
+if [[ ! -z $TO_USERNAME ]] || [[ ! -z $TO_PASSWORD ]] || [[ ! -z $TO_SERVER ]]; then
+  >&2 echo "Setting Up Auth for to"
+  setup_auth "$TO_USERNAME" "$TO_PASSWORD" "$TO_SERVER"
+fi
+
+mirror "$1" "$2"

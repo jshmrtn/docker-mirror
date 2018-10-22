@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+USERNAME=$1
+PASSWORD=$2
+SERVER=$3
+
+CMD="docker login";
+if [[ ! -z $USERNAME ]]; then
+  CMD="$CMD --username=\"$USERNAME\"";
+fi
+if [[ ! -z $PASSWORD ]]; then
+  CMD="$CMD --password-stdin";
+fi
+if [[ ! -z $SERVER ]]; then
+  CMD="$CMD \"$SERVER\"";
+fi
+echo $CMD;
+echo "$PASSWORD" | sh -c "$CMD";

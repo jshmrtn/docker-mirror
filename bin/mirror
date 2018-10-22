@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+FROM_REPO="$1"
+TO_REPO="$2"
+
+pull_all_tags "$FROM_REPO"
+
+list_tags "$FROM_REPO" | while read line; do
+  REFERENCE=$(echo "$line" | cut -f1 -d-)
+  TAG=$(echo "$line" | cut -f2 -d-)
+
+  docker tag "$REFERENCE" "$TO_REPO:$TAG"
+  docker push "$TO_REPO:$TAG"
+done
